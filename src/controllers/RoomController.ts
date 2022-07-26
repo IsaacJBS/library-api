@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { videoRepository } from '../repositories/VideoRepository'
-import { roomRepository } from '../repositories/RoomRepository'
+import { VideoRepository } from '../repositories/VideoRepository'
+import { RoomRepository } from '../repositories/RoomRepository'
 import { SubjectRepository } from '../repositories/SubjectRepository'
 
 export class RoomController {
@@ -8,8 +8,8 @@ export class RoomController {
     const { name, description } = req.body
 
     try {
-      const newRoom = roomRepository.create({ name, description })
-      await roomRepository.save(newRoom)
+      const newRoom = RoomRepository.create({ name, description })
+      await RoomRepository.save(newRoom)
 
       return res.status(201).json(newRoom)
     } catch (error) {
@@ -22,7 +22,7 @@ export class RoomController {
     const { idClass } = req.params
 
     try {
-      const room = await roomRepository.findOne({
+      const room = await RoomRepository.findOne({
         where: { id: Number(idClass) },
       })
 
@@ -30,9 +30,9 @@ export class RoomController {
         return res.status(404).json({ message: 'A aula informada não existe' })
       }
 
-      const newVideo = videoRepository.create({ title, url, room })
+      const newVideo = VideoRepository.create({ title, url, room })
 
-      await videoRepository.save(newVideo)
+      await VideoRepository.save(newVideo)
 
       return res.status(201).json(newVideo)
     } catch (error) {
@@ -45,7 +45,7 @@ export class RoomController {
     const { idClass } = req.params
 
     try {
-      const room = await roomRepository.findOne({
+      const room = await RoomRepository.findOne({
         where: { id: Number(idClass) },
       })
 
@@ -66,7 +66,7 @@ export class RoomController {
         subjects: [subject],
       }
 
-      await roomRepository.save(roomUpdate)
+      await RoomRepository.save(roomUpdate)
 
       return res.status(204).send()
     } catch (error) {
@@ -76,7 +76,7 @@ export class RoomController {
 
   async list(req: Request, res: Response) {
     try {
-      const rooms = await roomRepository.find({
+      const rooms = await RoomRepository.find({
         relations: {
           subjects: true,
         },
