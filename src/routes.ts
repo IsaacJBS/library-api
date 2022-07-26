@@ -7,5 +7,6 @@ const routes = Router()
 routes.post('/subject', new SubjectController().create)
 routes.post('/room', new RoomController().create)
 routes.post('/room/:idClass/create', new RoomController().createVideo)
+routes.post('/room/:idClass/subject', new RoomController().createSubject)
 
 export default routes
