@@ -73,4 +73,18 @@ export class RoomController {
       return res.status(404).json({ message: `${error}` })
     }
   }
+
+  async list(req: Request, res: Response) {
+    try {
+      const rooms = await roomRepository.find({
+        relations: {
+          subjects: true,
+        },
+      })
+
+      return res.json(rooms)
+    } catch (error) {
+      return res.status(404).json({ message: `${error}` })
+    }
+  }
 }
